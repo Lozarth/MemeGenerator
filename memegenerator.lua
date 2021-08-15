@@ -46,15 +46,9 @@ local function IZPP_fake_script() -- TextButton.LocalScript
 			Url = "https://evergene.io/api/memes",
 			Method = "GET"
 		})
-	
-		Response.Body = string.gsub(Response.Body, '"url":', "")
-		Response.Body = string.gsub(Response.Body, '"', "")
-		Response.Body = string.gsub(Response.Body,"{","")
-		Response.Body = string.gsub(Response.Body,"}","")
-		Response.Body = string.gsub(Response.Body,"%c","")
-		Response.Body = string.gsub(Response.Body," ","")
+		local JSON = game:GetService("HttpService"):JSONDecode(Response.Body)
 		local Random = math.random(1000,9999)
-		writefile("RedditMeme"..Random..".jpg", game:HttpGet(tostring(Response.Body)))
+		writefile("RedditMeme"..Random..".jpg", game:HttpGet(tostring(JSON.url)))
 		script.Parent.Parent.ImageLabel.Image = getsynasset("RedditMeme"..Random..".jpg")
 	end)
 end
